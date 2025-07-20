@@ -4,6 +4,7 @@ from fastapi import FastAPI
 
 from app.routers import usuario as usuario_router
 from app.routers import auth as auth_router
+from app.routers import inventario as elementos_router
 # from app.database import init_db # Opcional: para inicializar la BD al arrancar
 
 # --- Ciclo de vida de la aplicación (Opcional) ---
@@ -26,7 +27,10 @@ app = FastAPI(
 
 # Incluye el router de usuarios en la aplicación principal
 app.include_router(usuario_router.router)
+# Incluye el router de autenticación en la aplicación principal
 app.include_router(auth_router.router)
+# Incluye el router de elementos de inventario
+app.include_router(elementos_router.router)
 
 
 # Ruta raíz simple para verificar que la API está funcionando

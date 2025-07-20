@@ -5,42 +5,42 @@ from typing import Generic, TypeVar
 
 ModelDB = TypeVar("ModelDB", bound=SQLModel)
 
-class BaseQuery(Generic[ModelDB]):
-    def __init__(self, model: type[ModelDB]) -> None: 
-        self.model = model
-        
 
-    async def get(self, session: AsyncSession, id: int):
+class BaseQuery(Generic[ModelDB]):
+    def __init__(self, model: type[ModelDB]) -> None:
+        self.model = model
+
+    async def get(self, session: AsyncSession, id: int | str):
         """Obtiene un objeto por su ID"""
         result = await session.get(self.model, id)
         return result
 
-    async def get_list(
-        self, session: AsyncSession, skip: int = 0, limit: int = 100
-    ):
+    async def get_list(self, session: AsyncSession, skip: int = 0, limit: int = 100):
         """Obtiene una lista de objetos de forma asíncrona."""
         stmt = select(self.model).offset(skip).limit(limit)
         result = await session.execute(stmt)
         return result.scalars().all()  # type:ignore
-    
+
     async def create(self, session: AsyncSession, obj: SQLModel):
         """Crea un nuevo objeto de forma asíncrona."""
         obj_in_data = obj.model_dump()
         base_obj = self.model(**obj_in_data)
         session.add(base_obj)
         await session.commit()
-        await session.refresh(base_obj) # Refresca para obtener el ID generado por la BD
+        await session.refresh(
+            base_obj
+        )  # Refresca para obtener el ID generado por la BD
         return base_obj
 
-    async def update(self, session: AsyncSession, id: int, obj: SQLModel):
+    async def update(self, session: AsyncSession, id: int | str, obj: SQLModel):
         """Actualiza un objeto existente de forma asíncrona."""
         db_obj = await self.get(session, id)
         if not db_obj:
             raise ValueError(f"{obj.__class__.__name__} con ID {id} no encontrado")
         # Obtiene los datos a actualizar, excluyendo los no proporcionados (None)
         update_data = obj.model_dump(exclude_none=True)
-        if not update_data: # Si no se proporcionaron datos para actualizar
-            return self.model(**db_obj.model_dump()) # Devuelve el usuario sin cambios
+        if not update_data:  # Si no se proporcionaron datos para actualizar
+            return self.model(**db_obj.model_dump())  # Devuelve el usuario sin cambios
 
         # Actualiza los campos del objeto SQLAlchemy
         for key, value in update_data.items():
@@ -55,7 +55,7 @@ class BaseQuery(Generic[ModelDB]):
         await session.refresh(db_obj)
         return self.model(**db_obj.model_dump())
 
-    async def delete(self, session: AsyncSession, id: int) -> ModelDB | None:
+    async def delete(self, session: AsyncSession, id: int | str) -> ModelDB | None:
         """Elimina un objeto de forma asíncrona."""
         db_obj = await self.get(session, id)
         if not db_obj:

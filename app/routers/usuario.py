@@ -13,7 +13,6 @@ from app.internal.query.usuario import usuario_query
 # Seguridad
 from app.routers.auth import pwd_context
 
-# Crea el router (sin cambios aquí)
 router = APIRouter(
     prefix="/usuarios",
     tags=["Usuarios"],

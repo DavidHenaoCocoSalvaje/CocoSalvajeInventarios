@@ -1,28 +1,30 @@
 # main.py
 from fastapi import FastAPI
-# from contextlib import asynccontextmanager
+from contextlib import asynccontextmanager
 
 from app.routers import usuario as usuario_router
 from app.routers import auth as auth_router
 from app.routers import inventario as elementos_router
-# from app.database import init_db # Opcional: para inicializar la BD al arrancar
+from app.models.database import create_db_and_tables
+
 
 # --- Ciclo de vida de la aplicación (Opcional) ---
 # Puedes usar lifespan para tareas de inicio/apagado, como crear tablas
-# @asynccontextmanager
-# async def lifespan(app: FastAPI):
-#     print("Iniciando aplicación y base de datos...")
-#     # await init_db() # Descomentar para crear tablas al inicio
-#     print("Base de datos lista.")
-#     yield # La aplicación se ejecuta aquí
-#     print("Cerrando aplicación...")
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    print("Iniciando aplicación y base de datos...")
+    await create_db_and_tables()  # Descomentar para crear tablas al inicio
+    print("Base de datos lista.")
+    yield  # La aplicación se ejecuta aquí
+    print("Cerrando aplicación...")
+
 
 # Crea la instancia de la aplicación FastAPI
-# app = FastAPI(lifespan=lifespan) # Usar lifespan si se define arriba
 app = FastAPI(
     title="API de Inventarios Coco Salvaje",
     description="API para gestionar el inventario de Coco Salvaje.",
     version="1.0.0",
+    lifespan=lifespan,  # Usa el contexto de vida para crear tablas
 )
 
 # Incluye el router de usuarios en la aplicación principal

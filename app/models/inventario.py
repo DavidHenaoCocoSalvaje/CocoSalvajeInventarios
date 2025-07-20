@@ -1,9 +1,9 @@
 # app/models/inventario.py
 from datetime import datetime
-from sqlmodel import Field, Relationship, SQLModel, CHAR, SMALLINT, DATE
+from sqlmodel import Field, Relationship, SQLModel, SMALLINT, DATE
 
 
-class BodegaInventario(SQLModel):
+class BodegaInventario(SQLModel, table=True):
     __tablename__ = "bodegas_inventario"  # type: ignore
     id: int = Field(primary_key=True, sa_type=SMALLINT)
     nombre: str = Field(max_length=50)
@@ -18,7 +18,7 @@ class BodegaInventario(SQLModel):
     )
 
 
-class GrupoInventario(SQLModel):
+class GrupoInventario(SQLModel, table=True):
     __tablename__ = "grupos_inventario"  # type: ignore
     id: int = Field(primary_key=True, sa_type=SMALLINT)
     nombre: str = Field(max_length=50)
@@ -32,9 +32,10 @@ class GrupoInventario(SQLModel):
     )
 
 
-class UnidadMedida(SQLModel):
+class UnidadMedida(SQLModel, table=True):
     __tablename__ = "unidades_medida"  # type: ignore
-    id: int = Field(sa_type=SMALLINT, primary_key=True)
+    # Cambiado a str para coincidir con las FKs que usan max_length=3
+    id: str = Field(primary_key=True, max_length=3)
     nombre: str = Field(max_length=50)
     tipo_unidad_medida: str = Field(max_length=50)
 
@@ -59,7 +60,7 @@ class UnidadMedida(SQLModel):
     )
 
 
-class EstadoElementoInventario(SQLModel):
+class EstadoElementoInventario(SQLModel, table=True):
     __tablename__ = "estados_elemento_inventario"  # type: ignore
     id: int = Field(sa_type=SMALLINT, primary_key=True)
     nombre: str = Field(max_length=50)
@@ -73,12 +74,13 @@ class EstadoElementoInventario(SQLModel):
     )
 
 
-class ElementoInventario(SQLModel):
+class ElementoInventario(SQLModel, table=True):
     __tablename__ = "elementos_inventario"  # type: ignore
     id: int = Field(primary_key=True)
     nombre: str = Field(max_length=120)
     bodega_inventario_id: int | None = Field(foreign_key="bodegas_inventario.id")
-    grupo_inventario_id: int | None = Field(sa_type=SMALLINT)
+    # Añadida clave foránea
+    grupo_inventario_id: int | None = Field(foreign_key="grupos_inventario.id")
     cantidad: int | None = None
     unidad_medida_cantidad_id: str | None = Field(
         max_length=3, foreign_key="unidades_medida.id", default=None
@@ -91,43 +93,55 @@ class ElementoInventario(SQLModel):
     unidad_medida_volumen_id: str | None = Field(
         max_length=3, foreign_key="unidades_medida.id", default=None
     )
-    estado_elemento_id: str = Field(foreign_key="estados_elemento_inventario.id")
+    # Corregido tipo a int y añadida clave foránea
+    estado_elemento_id: int = Field(foreign_key="estados_elemento_inventario.id")
     created_at: datetime = Field(default=datetime.now)
-    usuario_id: int | None = None
+    # Añadida clave foránea
+    usuario_id: int | None = Field(foreign_key="usuarios.id", default=None)
 
     # Relationships
     precios: list["PrecioElementoInventario"] = Relationship(
-        back_populates="elementos_inventario"
+        back_populates="elemento_inventario"
     )
     elementos_compuestos_inventario: list["ElementosPorElementoCompuestoInventario"] = (
         Relationship(back_populates="elemento_inventario")
     )
-    unidad_medida_cantidad: UnidadMedida = Relationship(
+    unidad_medida_cantidad: "UnidadMedida" = Relationship(  # Usar cadena
         back_populates="elementos_inventario_cantidad"
     )
-    unidad_medida_peso: UnidadMedida = Relationship(
+    unidad_medida_peso: "UnidadMedida" = Relationship(  # Usar cadena
         back_populates="elementos_inventario_peso"
     )
-    unidad_medida_volumen: UnidadMedida = Relationship(
+    unidad_medida_volumen: "UnidadMedida" = Relationship(  # Usar cadena
         back_populates="elementos_inventario_volumen"
     )
-    bodega_inventario: BodegaInventario = Relationship(
+    bodega_inventario: "BodegaInventario" = Relationship(  # Usar cadena
         back_populates="elementos_inventario"
     )
-    grupo_inventario: GrupoInventario = Relationship(
+    grupo_inventario: "GrupoInventario" = Relationship(  # Usar cadena
         back_populates="elementos_inventario"
     )
-    estado_elemento: EstadoElementoInventario = Relationship(
+    estado_elemento: "EstadoElementoInventario" = Relationship(  # Usar cadena
         back_populates="elementos_inventario"
+    )
+    # Relación con UsuarioDB
+    usuario: "UsuarioDB" = Relationship(back_populates="elementos_inventario")  # type: ignore # noqa: F821
+    # Relación con MovimientoInventario
+    movimientos_inventario: list["MovimientoInventario"] = Relationship(
+        back_populates="elemento_inventario"
     )
 
 
-class ElementoCompuestoInventario(SQLModel):
-    __tablename__ = "elementos_inventario"  # type: ignore
+class ElementoCompuestoInventario(SQLModel, table=True):
+    # Nombre de tabla corregido para evitar conflictos
+    __tablename__ = "elementos_compuestos_inventario"  # type: ignore
     id: int = Field(primary_key=True)
     nombre: str = Field(max_length=120)
     bodega_inventario_id: int | None = Field(foreign_key="bodegas_inventario.id")
-    grupo_inventario_id: int | None = None
+    # Añadida clave foránea
+    grupo_inventario_id: int | None = Field(
+        foreign_key="grupos_inventario.id", default=None
+    )
     cantidad: int | None = None
     unidad_medida_cantidad_id: str | None = Field(
         max_length=3, foreign_key="unidades_medida.id", default=None
@@ -140,52 +154,67 @@ class ElementoCompuestoInventario(SQLModel):
     unidad_medida_volumen_id: str | None = Field(
         max_length=3, foreign_key="unidades_medida.id", default=None
     )
-    estado_elemento_id: str = Field(sa_type=CHAR)
+    # Corregido tipo a int y añadida clave foránea
+    estado_elemento_id: int = Field(foreign_key="estados_elemento_inventario.id")
     created_at: datetime = Field(default=datetime.now)
-    usuario_id: int | None = None
+    # Añadida clave foránea
+    usuario_id: int | None = Field(foreign_key="usuarios.id", default=None)
 
     # Relationships
     elementos_inventario: list["ElementosPorElementoCompuestoInventario"] = (
         Relationship(back_populates="elemento_compuesto_inventario")
     )
-    precios: list["PrecioElementoInventario"] = Relationship(
-        back_populates="elementos_inventario"
-    )
-    unidad_medida_cantidad: UnidadMedida = Relationship(
+    # Eliminada relación 'precios' que no corresponde a este modelo
+    unidad_medida_cantidad: "UnidadMedida" = Relationship(  # Usar cadena
         back_populates="elementos_compuestos_inventario_cantidad"
     )
-    unidad_medida_peso: UnidadMedida = Relationship(
+    unidad_medida_peso: "UnidadMedida" = Relationship(  # Usar cadena
         back_populates="elementos_compuestos_inventario_peso"
     )
-    unidad_medida_volumen: UnidadMedida = Relationship(
+    unidad_medida_volumen: "UnidadMedida" = Relationship(  # Usar cadena
         back_populates="elementos_compuestos_inventario_volumen"
     )
-    bodega_inventario: BodegaInventario = Relationship(
+    bodega_inventario: "BodegaInventario" = Relationship(  # Usar cadena
         back_populates="elementos_compuestos_inventario"
     )
-    grupo_inventario: GrupoInventario = Relationship(
+    grupo_inventario: "GrupoInventario" = Relationship(  # Usar cadena
         back_populates="elementos_compuestos_inventario"
     )
-    estado_elemento: EstadoElementoInventario = Relationship(
+    estado_elemento: "EstadoElementoInventario" = Relationship(  # Usar cadena
         back_populates="elementos_compuestos_inventario"
+    )
+    # Relación con UsuarioDB
+    usuario: "UsuarioDB" = Relationship(  # type: ignore  # noqa: F821
+        back_populates="elementos_compuestos_inventario"
+    )
+    # Relación con MovimientoInventario
+    movimientos_inventario: list["MovimientoInventario"] = Relationship(
+        back_populates="elemento_compuesto_inventario"
     )
 
 
-class ElementosPorElementoCompuestoInventario(SQLModel):
+class ElementosPorElementoCompuestoInventario(SQLModel, table=True):
     __tablename__ = "elementos_inventario_por_elemento_compuesto"  # type: ignore
-    elemento_compuesto_inventario_id: int = Field(foreign_key="elementos_inventario.id")
-    elemento_inventario_id: int = Field(foreign_key="elementos_inventario.id")
+    # Añadidos primary_key para la tabla de enlace
+    elemento_compuesto_inventario_id: int = Field(
+        foreign_key="elementos_compuestos_inventario.id", primary_key=True
+    )
+    elemento_inventario_id: int = Field(
+        foreign_key="elementos_inventario.id", primary_key=True
+    )
 
     # Relationships
-    elemento_inventario: ElementoInventario = Relationship(
-        back_populates="elementos_por_elemento_compuesto"
+    elemento_inventario: "ElementoInventario" = Relationship(  # Usar cadena
+        back_populates="elementos_compuestos_inventario"
     )
-    elemento_compuesto_inventario: ElementoCompuestoInventario = Relationship(
-        back_populates="elementos_inventario"
+    elemento_compuesto_inventario: "ElementoCompuestoInventario" = (
+        Relationship(  # Usar cadena
+            back_populates="elementos_inventario"
+        )
     )
 
 
-class TipoPrecioElementoInventario(SQLModel):
+class TipoPrecioElementoInventario(SQLModel, table=True):
     __tablename__ = "tipos_precio_elemento_inventario"  # type: ignore
     id: int = Field(sa_type=SMALLINT, primary_key=True)
     nombre: str = Field(max_length=50)
@@ -196,23 +225,23 @@ class TipoPrecioElementoInventario(SQLModel):
     )
 
 
-class PrecioElementoInventario(SQLModel):
+class PrecioElementoInventario(SQLModel, table=True):
     __tablename__ = "precios_elemento_inventario"  # type: ignore
     id: int = Field(primary_key=True)
-    elemento_inventario_id: int
+    # Añadida clave foránea
+    elemento_inventario_id: int = Field(foreign_key="elementos_inventario.id")
     precio: float
     tipo_precio_id: int = Field(foreign_key="tipos_precio_elemento_inventario.id")
     fini: datetime = Field(sa_type=DATE)
     ffin: datetime | None = Field(sa_type=DATE, default=None)
 
     # Relationships
-    elementos_inventario: ElementoCompuestoInventario = Relationship(
-        back_populates="precios"
-    )
-    tipo_precio: TipoPrecioElementoInventario = Relationship(back_populates="precios")
+    # Corregida la relación para que apunte a ElementoInventario
+    elemento_inventario: "ElementoInventario" = Relationship(back_populates="precios")
+    tipo_precio: "TipoPrecioElementoInventario" = Relationship(back_populates="precios")
 
 
-class MovimientoInventario(SQLModel):
+class MovimientoInventario(SQLModel, table=True):
     __tablename__ = "movimientos_inventario"  # type: ignore
     id: int = Field(primary_key=True)
     nombre: str = Field(max_length=120)
@@ -220,12 +249,37 @@ class MovimientoInventario(SQLModel):
     elemento_inventario_id: int | None = Field(
         foreign_key="elementos_inventario.id", default=None
     )
-    elemento_compuesto_inventario_id: int | None = None
+    # Añadida clave foránea
+    elemento_compuesto_inventario_id: int | None = Field(
+        foreign_key="elementos_compuestos_inventario.id", default=None
+    )
+    # Añadido campo y clave foránea para el tipo de movimiento
+    tipo_movimiento_id: int = Field(foreign_key="tipos_movimiento_inventario.id")
     created_at: datetime = Field(default=datetime.now)
-    usuario_id: int | None = None
+    # Añadida clave foránea
+    usuario_id: int | None = Field(foreign_key="usuarios.id", default=None)
+
+    # Relationships
+    elemento_inventario: "ElementoInventario" = Relationship(  # Usar cadena
+        back_populates="movimientos_inventario"
+    )
+    elemento_compuesto_inventario: "ElementoCompuestoInventario" = (
+        Relationship(  # Usar cadena
+            back_populates="movimientos_inventario"
+        )
+    )
+    tipo_movimiento: "TipoMovimientoInventario" = Relationship(  # Usar cadena
+        back_populates="movimientos_inventario"
+    )
+    usuario: "UsuarioDB" = Relationship(back_populates="movimientos_inventario")  # type: ignore  # noqa: F821
 
 
-class TipoMovimientoInventario(SQLModel):
+class TipoMovimientoInventario(SQLModel, table=True):
     __tablename__ = "tipos_movimiento_inventario"  # type: ignore
     id: int = Field(sa_type=SMALLINT, primary_key=True)
     nombre: str = Field(max_length=50)
+
+    # Relationships
+    movimientos_inventario: list["MovimientoInventario"] = Relationship(
+        back_populates="tipo_movimiento"
+    )

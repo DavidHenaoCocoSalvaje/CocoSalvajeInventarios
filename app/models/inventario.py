@@ -35,28 +35,52 @@ class GrupoInventario(SQLModel, table=True):
 class UnidadMedida(SQLModel, table=True):
     __tablename__ = "unidades_medida"  # type: ignore
     # Cambiado a str para coincidir con las FKs que usan max_length=3
-    id: str = Field(primary_key=True, max_length=3)
+    id: int = Field(sa_type=SMALLINT, primary_key=True)
     nombre: str = Field(max_length=50)
     tipo_unidad_medida: str = Field(max_length=50)
 
     # Relationships
     elementos_inventario_cantidad: list["ElementoInventario"] = Relationship(
-        back_populates="unidad_medida_cantidad"
+        back_populates="unidad_medida_cantidad",
+        sa_relationship_kwargs={
+            "foreign_keys": "ElementoInventario.unidad_medida_cantidad_id"
+        },
     )
     elementos_inventario_peso: list["ElementoInventario"] = Relationship(
-        back_populates="unidad_medida_peso"
+        back_populates="unidad_medida_peso",
+        sa_relationship_kwargs={
+            "foreign_keys": "ElementoInventario.unidad_medida_peso_id"
+        },
     )
     elementos_inventario_volumen: list["ElementoInventario"] = Relationship(
-        back_populates="unidad_medida_volumen"
+        back_populates="unidad_medida_volumen",
+        sa_relationship_kwargs={
+            "foreign_keys": "ElementoInventario.unidad_medida_volumen_id"
+        },
     )
     elementos_compuestos_inventario_cantidad: list["ElementoCompuestoInventario"] = (
-        Relationship(back_populates="unidad_medida_cantidad")
+        Relationship(
+            back_populates="unidad_medida_cantidad",
+            sa_relationship_kwargs={
+                "foreign_keys": "ElementoCompuestoInventario.unidad_medida_cantidad_id"
+            },
+        )
     )
     elementos_compuestos_inventario_peso: list["ElementoCompuestoInventario"] = (
-        Relationship(back_populates="unidad_medida_peso")
+        Relationship(
+            back_populates="unidad_medida_peso",
+            sa_relationship_kwargs={
+                "foreign_keys": "ElementoCompuestoInventario.unidad_medida_peso_id"
+            },
+        )
     )
     elementos_compuestos_inventario_volumen: list["ElementoCompuestoInventario"] = (
-        Relationship(back_populates="unidad_medida_volumen")
+        Relationship(
+            back_populates="unidad_medida_volumen",
+            sa_relationship_kwargs={
+                "foreign_keys": "ElementoCompuestoInventario.unidad_medida_volumen_id"
+            },
+        )
     )
 
 
@@ -82,16 +106,16 @@ class ElementoInventario(SQLModel, table=True):
     # Añadida clave foránea
     grupo_inventario_id: int | None = Field(foreign_key="grupos_inventario.id")
     cantidad: int | None = None
-    unidad_medida_cantidad_id: str | None = Field(
-        max_length=3, foreign_key="unidades_medida.id", default=None
+    unidad_medida_cantidad_id: int | None = Field(
+        foreign_key="unidades_medida.id", default=None
     )
     peso: int | None = None
-    unidad_medida_peso_id: str | None = Field(
-        max_length=3, foreign_key="unidades_medida.id", default=None
+    unidad_medida_peso_id: int | None = Field(
+        foreign_key="unidades_medida.id", default=None
     )
     volumen: int | None = None
-    unidad_medida_volumen_id: str | None = Field(
-        max_length=3, foreign_key="unidades_medida.id", default=None
+    unidad_medida_volumen_id: int | None = Field(
+        foreign_key="unidades_medida.id", default=None
     )
     # Corregido tipo a int y añadida clave foránea
     estado_elemento_id: int = Field(foreign_key="estados_elemento_inventario.id")
@@ -107,13 +131,22 @@ class ElementoInventario(SQLModel, table=True):
         Relationship(back_populates="elemento_inventario")
     )
     unidad_medida_cantidad: "UnidadMedida" = Relationship(  # Usar cadena
-        back_populates="elementos_inventario_cantidad"
+        back_populates="elementos_inventario_cantidad",
+        sa_relationship_kwargs={
+            "foreign_keys": "ElementoInventario.unidad_medida_cantidad_id"
+        },
     )
     unidad_medida_peso: "UnidadMedida" = Relationship(  # Usar cadena
-        back_populates="elementos_inventario_peso"
+        back_populates="elementos_inventario_peso",
+        sa_relationship_kwargs={
+            "foreign_keys": "ElementoInventario.unidad_medida_peso_id"
+        },
     )
     unidad_medida_volumen: "UnidadMedida" = Relationship(  # Usar cadena
-        back_populates="elementos_inventario_volumen"
+        back_populates="elementos_inventario_volumen",
+        sa_relationship_kwargs={
+            "foreign_keys": "ElementoInventario.unidad_medida_volumen_id"
+        },
     )
     bodega_inventario: "BodegaInventario" = Relationship(  # Usar cadena
         back_populates="elementos_inventario"
@@ -166,13 +199,22 @@ class ElementoCompuestoInventario(SQLModel, table=True):
     )
     # Eliminada relación 'precios' que no corresponde a este modelo
     unidad_medida_cantidad: "UnidadMedida" = Relationship(  # Usar cadena
-        back_populates="elementos_compuestos_inventario_cantidad"
+        back_populates="elementos_compuestos_inventario_cantidad",
+        sa_relationship_kwargs={
+            "foreign_keys": "ElementoCompuestoInventario.unidad_medida_cantidad_id"
+        },
     )
     unidad_medida_peso: "UnidadMedida" = Relationship(  # Usar cadena
-        back_populates="elementos_compuestos_inventario_peso"
+        back_populates="elementos_compuestos_inventario_peso",
+        sa_relationship_kwargs={
+            "foreign_keys": "ElementoCompuestoInventario.unidad_medida_peso_id"
+        },
     )
     unidad_medida_volumen: "UnidadMedida" = Relationship(  # Usar cadena
-        back_populates="elementos_compuestos_inventario_volumen"
+        back_populates="elementos_compuestos_inventario_volumen",
+        sa_relationship_kwargs={
+            "foreign_keys": "ElementoCompuestoInventario.unidad_medida_volumen_id"
+        },
     )
     bodega_inventario: "BodegaInventario" = Relationship(  # Usar cadena
         back_populates="elementos_compuestos_inventario"

@@ -18,15 +18,15 @@ class UsuarioDB(UsuarioCreate, table=True):
 
     # Relationships
     # Un usuario puede tener múltiples elementos de inventario creados
-    elementos_inventario: list["ElementoInventario"] = Relationship(  # type: ignore  # noqa: F821
+    elementos_inventario: list["ElementoInventario"] | None = Relationship(  # type: ignore  # noqa: F821
         back_populates="usuario"
     )
     # Un usuario puede tener múltiples elementos compuestos de inventario creados
-    elementos_compuestos_inventario: list["ElementoCompuestoInventario"] = Relationship(  # type: ignore  # noqa: F821
-        back_populates="usuario"
+    elementos_compuestos_inventario: list["ElementoCompuestoInventario"] | None = (  # type: ignore  # noqa: F821
+        Relationship(back_populates="usuario")
     )
     # Un usuario puede realizar múltiples movimientos de inventario
-    movimientos_inventario: list["MovimientoInventario"] = Relationship(  # type: ignore  # noqa: F821
+    movimientos_inventario: list["MovimientoInventario"] | None = Relationship(  # type: ignore  # noqa: F821
         back_populates="usuario"
     )
 

@@ -26,8 +26,8 @@ from app.internal.query.inventario import (
 )
 
 router = APIRouter(
-    prefix="/elementos_inventario",
-    tags=["ElementosInventario"],
+    prefix="/inventario",
+    tags=["Inventario"],
     responses={404: {"description": "No encontrado"}},
 )
 

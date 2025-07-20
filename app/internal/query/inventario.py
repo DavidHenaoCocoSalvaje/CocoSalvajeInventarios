@@ -88,13 +88,15 @@ class EstadoElementoInventarioQuery(BaseQuery[EstadoElementoInventario]):
 
 # Opcional: Instancias pre-inicializadas de las clases de consulta,
 # siguiendo el patrón de usuario_query en app/internal/query/usuario.py
+grupo_inventario_query = GrupoInventarioQuery()
+bodega_inventario_query = BodegaInventarioQuery()
+tipo_movimiento_inventario_query = TipoMovimientoInventarioQuery()
+estado_elemento_inventario_query = EstadoElementoInventarioQuery()
 elemento_inventario_query = ElementoInventarioQuery()
 elemento_compuesto_inventario_query = ElementoCompuestoInventarioQuery()
+elementos_por_elemento_compuesto_inventario_query = (
+    ElementosPorElementoCompuestoInventarioQuery()
+)
 precio_elemento_inventario_query = PrecioElementoInventarioQuery()
 tipo_precio_elemento_inventario_query = TipoPrecioElementoInventarioQuery()
 movimiento_inventario_query = MovimientoInventarioQuery()
-tipo_movimiento_inventario_query = TipoMovimientoInventarioQuery()
-estado_elemento_inventario_query = EstadoElementoInventarioQuery()
-
-
-elemento_inventario_query = ElementoInventarioQuery()

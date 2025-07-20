@@ -1,343 +1,320 @@
 {
-  "estados_elementos_inventario": [
-    {
-      "id": 1,
-      "nombre": "Disponible"
-    },
-    {
-      "id": 2,
-      "nombre": "Dañado"
-    },
-    {
-      "id": 3,
-      "nombre": "En Uso"
-    },
-    {
-      "id": 4,
-      "nombre": "En Reparación"
-    },
-    {
-      "id": 5,
-      "nombre": "Descontinuado"
-    }
-  ],
-  "tipos_movimientos_inventario": [
-    {
-      "id": 1,
-      "nombre": "Entrada"
-    },
-    {
-      "id": 2,
-      "nombre": "Salida"
-    },
-    {
-      "id": 3,
-      "nombre": "Ajuste"
-    },
-    {
-      "id": 4,
-      "nombre": "Transferencia"
-    },
-    {
-      "id": 5,
-      "nombre": "Devolución"
-    }
-  ],
-  "tipos_precios_elementos_inventario": [
-    {
-      "id": 1,
-      "nombre": "Venta"
-    },
-    {
-      "id": 2,
-      "nombre": "Compra"
-    },
-    {
-      "id": 3,
-      "nombre": "Costo Promedio"
-    },
-    {
-      "id": 4,
-      "nombre": "Precio Mayorista"
-    },
-    {
-      "id": 5,
-      "nombre": "Precio Minorista"
-    }
-  ],
-  "usuarios": [
-    {
-      "username": "admin_user",
-      "password": "adminpassword123",
-      "contacto_id": null
-    },
-    {
-      "username": "compras_user",
-      "password": "compraspassword123",
-      "contacto_id": null
-    },
-    {
-      "username": "produccion_user",
-      "password": "produccionpassword123",
-      "contacto_id": null
-    },
-    {
-      "username": "ventas_user",
-      "password": "ventaspassword123",
-      "contacto_id": null
-    },
-    {
-      "username": "almacen_user",
-      "password": "almacenpassword123",
-      "contacto_id": null
-    }
-  ],
-  "elementos_inventario": [
-    {
-      "id": 1,
-      "nombre": "Coco Fresco Grande",
-      "bodega_inventario_id": 1,
-      "grupo_inventario_id": 101,
-      "cantidad": 500,
-      "unidad_medida_cantidad_id": "UND",
-      "peso": 1500,
-      "unidad_medida_peso_id": "GR",
-      "volumen": 2000,
-      "unidad_medida_volumen_id": "CM3",
-      "estado_elemento_id": 1,
-      "created_at": "2025-07-20T14:30:00",
-      "usuario_id": 1
-    },
-    {
-      "id": 2,
-      "nombre": "Agua de Coco Botella 500ml",
-      "bodega_inventario_id": 1,
-      "grupo_inventario_id": 102,
-      "cantidad": 1000,
-      "unidad_medida_cantidad_id": "UND",
-      "peso": 550,
-      "unidad_medida_peso_id": "GR",
-      "volumen": 500,
-      "unidad_medida_volumen_id": "ML",
-      "estado_elemento_id": 1,
-      "created_at": "2025-07-20T14:31:00",
-      "usuario_id": 1
-    },
-    {
-      "id": 3,
-      "nombre": "Pulpa de Coco Congelada 1kg",
-      "bodega_inventario_id": 2,
-      "grupo_inventario_id": 103,
-      "cantidad": 200,
-      "unidad_medida_cantidad_id": "UND",
-      "peso": 1000,
-      "unidad_medida_peso_id": "GR",
-      "volumen": 1200,
-      "unidad_medida_volumen_id": "CM3",
-      "estado_elemento_id": 1,
-      "created_at": "2025-07-20T14:32:00",
-      "usuario_id": 2
-    },
-    {
-      "id": 4,
-      "nombre": "Aceite de Coco Virgen 1L",
-      "bodega_inventario_id": 2,
-      "grupo_inventario_id": 104,
-      "cantidad": 150,
-      "unidad_medida_cantidad_id": "UND",
-      "peso": 920,
-      "unidad_medida_peso_id": "GR",
-      "volumen": 1000,
-      "unidad_medida_volumen_id": "ML",
-      "estado_elemento_id": 1,
-      "created_at": "2025-07-20T14:33:00",
-      "usuario_id": 2
-    },
-    {
-      "id": 5,
-      "nombre": "Fibra de Coco (Sustrato) 5kg",
-      "bodega_inventario_id": 3,
-      "grupo_inventario_id": 105,
-      "cantidad": 50,
-      "unidad_medida_cantidad_id": "UND",
-      "peso": 5000,
-      "unidad_medida_peso_id": "GR",
-      "volumen": 10000,
-      "unidad_medida_volumen_id": "CM3",
-      "estado_elemento_id": 1,
-      "created_at": "2025-07-20T14:34:00",
-      "usuario_id": 3
-    }
-  ],
-  "elementos_compuestos_inventario": [
-    {
-      "id": 1,
-      "nombre": "Kit de Coctelería de Coco",
-      "bodega_inventario_id": 1,
-      "grupo_inventario_id": null,
-      "cantidad": 50,
-      "unidad_medida_cantidad_id": "UND",
-      "peso": 2000,
-      "unidad_medida_peso_id": "GR",
-      "volumen": 3000,
-      "unidad_medida_volumen_id": "CM3",
-      "estado_elemento_id": 1,
-      "created_at": "2025-07-20T14:35:00",
-      "usuario_id": 1
-    },
-    {
-      "id": 2,
-      "nombre": "Cesta de Productos de Coco Gourmet",
-      "bodega_inventario_id": 2,
-      "grupo_inventario_id": null,
-      "cantidad": 30,
-      "unidad_medida_cantidad_id": "UND",
-      "peso": 4000,
-      "unidad_medida_peso_id": "GR",
-      "volumen": 5000,
-      "unidad_medida_volumen_id": "CM3",
-      "estado_elemento_id": 1,
-      "created_at": "2025-07-20T14:36:00",
-      "usuario_id": 2
-    },
-    {
-      "id": 3,
-      "nombre": "Empaque de Coco para Regalo",
-      "bodega_inventario_id": 1,
-      "grupo_inventario_id": null,
-      "cantidad": 100,
-      "unidad_medida_cantidad_id": "UND",
-      "peso": 500,
-      "unidad_medida_peso_id": "GR",
-      "volumen": 1000,
-      "unidad_medida_volumen_id": "CM3",
-      "estado_elemento_id": 1,
-      "created_at": "2025-07-20T14:37:00",
-      "usuario_id": 3
-    },
-    {
-      "id": 4,
-      "nombre": "Set de Utensilios de Coco",
-      "bodega_inventario_id": 3,
-      "grupo_inventario_id": null,
-      "cantidad": 20,
-      "unidad_medida_cantidad_id": "UND",
-      "peso": 1000,
-      "unidad_medida_peso_id": "GR",
-      "volumen": 1500,
-      "unidad_medida_volumen_id": "CM3",
-      "estado_elemento_id": 1,
-      "created_at": "2025-07-20T14:38:00",
-      "usuario_id": 1
-    },
-    {
-      "id": 5,
-      "nombre": "Combo Saludable de Coco",
-      "bodega_inventario_id": 2,
-      "grupo_inventario_id": null,
-      "cantidad": 40,
-      "unidad_medida_cantidad_id": "UND",
-      "peso": 2500,
-      "unidad_medida_peso_id": "GR",
-      "volumen": 3500,
-      "unidad_medida_volumen_id": "CM3",
-      "estado_elemento_id": 1,
-      "created_at": "2025-07-20T14:39:00",
-      "usuario_id": 2
-    }
-  ],
-  "precios_elementos_inventario": [
-    {
-      "id": 1,
-      "elemento_inventario_id": 1,
-      "precio": 2.50,
-      "tipo_precio_id": 1,
-      "fini": "2025-07-01T00:00:00",
-      "ffin": null
-    },
-    {
-      "id": 2,
-      "elemento_inventario_id": 2,
-      "precio": 1.80,
-      "tipo_precio_id": 1,
-      "fini": "2025-07-01T00:00:00",
-      "ffin": null
-    },
-    {
-      "id": 3,
-      "elemento_inventario_id": 3,
-      "precio": 8.00,
-      "tipo_precio_id": 2,
-      "fini": "2025-07-01T00:00:00",
-      "ffin": null
-    },
-    {
-      "id": 4,
-      "elemento_inventario_id": 4,
-      "precio": 15.00,
-      "tipo_precio_id": 1,
-      "fini": "2025-07-01T00:00:00",
-      "ffin": null
-    },
-    {
-      "id": 5,
-      "elemento_inventario_id": 5,
-      "precio": 10.00,
-      "tipo_precio_id": 2,
-      "fini": "2025-07-01T00:00:00",
-      "ffin": null
-    }
-  ],
-  "movimientos_inventario": [
-    {
-      "id": 1,
-      "nombre": "Entrada de Coco Fresco",
-      "cantidad": 100,
-      "elemento_inventario_id": 1,
-      "elemento_compuesto_inventario_id": null,
-      "tipo_movimiento_id": 1,
-      "created_at": "2025-07-20T14:40:00",
-      "usuario_id": 1
-    },
-    {
-      "id": 2,
-      "nombre": "Salida de Agua de Coco",
-      "cantidad": 50,
-      "elemento_inventario_id": 2,
-      "elemento_compuesto_inventario_id": null,
-      "tipo_movimiento_id": 2,
-      "created_at": "2025-07-20T14:41:00",
-      "usuario_id": 2
-    },
-    {
-      "id": 3,
-      "nombre": "Ajuste de Pulpa Congelada",
-      "cantidad": -10,
-      "elemento_inventario_id": 3,
-      "elemento_compuesto_inventario_id": null,
-      "tipo_movimiento_id": 3,
-      "created_at": "2025-07-20T14:42:00",
-      "usuario_id": 3
-    },
-    {
-      "id": 4,
-      "nombre": "Entrada Kit Coctelería",
-      "cantidad": 20,
-      "elemento_inventario_id": null,
-      "elemento_compuesto_inventario_id": 1,
-      "tipo_movimiento_id": 1,
-      "created_at": "2025-07-20T14:43:00",
-      "usuario_id": 1
-    },
-    {
-      "id": 5,
-      "nombre": "Salida Cesta Gourmet",
-      "cantidad": 5,
-      "elemento_inventario_id": null,
-      "elemento_compuesto_inventario_id": 2,
-      "tipo_movimiento_id": 2,
-      "created_at": "2025-07-20T14:44:00",
-      "usuario_id": 2
-    }
-  ]
+    "estados_elementos_inventario": [
+        {
+            "id": 1,
+            "nombre": "Enviado - Compra"
+        },
+        {
+            "id": 2,
+            "nombre": "Transito"
+        },
+        {
+            "id": 3,
+            "nombre": "Almacenado"
+        },
+        {
+            "id": 4,
+            "nombre": "Enviado - Venta"
+        },
+        {
+            "id": 5,
+            "nombre": "Entregado"
+        }
+    ],
+    "tipos_movimientos_inventario": [
+        {
+            "id": 1,
+            "nombre": "Saldo"
+        },
+        {
+            "id": 2,
+            "nombre": "Ajuste"
+        }
+    ],
+    "tipos_precios_elementos_inventario": [
+        {
+            "id": 1,
+            "nombre": "Retail"
+        },
+        {
+            "id": 2,
+            "nombre": "Distribuidor"
+        }
+    ],
+    "usuarios": [
+        {
+            "username": "admin_user",
+            "password": "Adminp@ssword123",
+            "contacto_id": null
+        },
+        {
+            "username": "compras_user",
+            "password": "Comprasp@ssword123",
+            "contacto_id": null
+        },
+        {
+            "username": "produccion_user",
+            "password": "Produccionp@ssword123",
+            "contacto_id": null
+        },
+        {
+            "username": "ventas_user",
+            "password": "Ventasp@ssword123",
+            "contacto_id": null
+        },
+        {
+            "username": "almacen_user",
+            "password": "Almacenp@ssword123",
+            "contacto_id": null
+        }
+    ],
+    "grupos_inventario": [],
+    "elementos_inventario": [
+        {
+            "id": 1,
+            "nombre": "Desodorante galerazamba",
+            "bodega_inventario_id": 1,
+            "grupo_inventario_id": 101,
+            "cantidad": 500,
+            "unidad_medida_cantidad_id": "UND",
+            "peso": 1500,
+            "unidad_medida_peso_id": "GR",
+            "volumen": 2000,
+            "unidad_medida_volumen_id": "CM3",
+            "estado_elemento_id": 1,
+            "created_at": "2025-07-20T14:30:00",
+            "usuario_id": 1
+        },
+        {
+            "id": 2,
+            "nombre": "Agua de Coco Botella 500ml",
+            "bodega_inventario_id": 1,
+            "grupo_inventario_id": 102,
+            "cantidad": 1000,
+            "unidad_medida_cantidad_id": "UND",
+            "peso": 550,
+            "unidad_medida_peso_id": "GR",
+            "volumen": 500,
+            "unidad_medida_volumen_id": "ML",
+            "estado_elemento_id": 1,
+            "created_at": "2025-07-20T14:31:00",
+            "usuario_id": 1
+        },
+        {
+            "id": 3,
+            "nombre": "Pulpa de Coco Congelada 1kg",
+            "bodega_inventario_id": 2,
+            "grupo_inventario_id": 103,
+            "cantidad": 200,
+            "unidad_medida_cantidad_id": "UND",
+            "peso": 1000,
+            "unidad_medida_peso_id": "GR",
+            "volumen": 1200,
+            "unidad_medida_volumen_id": "CM3",
+            "estado_elemento_id": 1,
+            "created_at": "2025-07-20T14:32:00",
+            "usuario_id": 2
+        },
+        {
+            "id": 4,
+            "nombre": "Aceite de Coco Virgen 1L",
+            "bodega_inventario_id": 2,
+            "grupo_inventario_id": 104,
+            "cantidad": 150,
+            "unidad_medida_cantidad_id": "UND",
+            "peso": 920,
+            "unidad_medida_peso_id": "GR",
+            "volumen": 1000,
+            "unidad_medida_volumen_id": "ML",
+            "estado_elemento_id": 1,
+            "created_at": "2025-07-20T14:33:00",
+            "usuario_id": 2
+        },
+        {
+            "id": 5,
+            "nombre": "Fibra de Coco (Sustrato) 5kg",
+            "bodega_inventario_id": 3,
+            "grupo_inventario_id": 105,
+            "cantidad": 50,
+            "unidad_medida_cantidad_id": "UND",
+            "peso": 5000,
+            "unidad_medida_peso_id": "GR",
+            "volumen": 10000,
+            "unidad_medida_volumen_id": "CM3",
+            "estado_elemento_id": 1,
+            "created_at": "2025-07-20T14:34:00",
+            "usuario_id": 3
+        }
+    ],
+    "elementos_compuestos_inventario": [
+        {
+            "id": 1,
+            "nombre": "Kit de Coctelería de Coco",
+            "bodega_inventario_id": 1,
+            "grupo_inventario_id": null,
+            "cantidad": 50,
+            "unidad_medida_cantidad_id": "UND",
+            "peso": 2000,
+            "unidad_medida_peso_id": "GR",
+            "volumen": 3000,
+            "unidad_medida_volumen_id": "CM3",
+            "estado_elemento_id": 1,
+            "created_at": "2025-07-20T14:35:00",
+            "usuario_id": 1
+        },
+        {
+            "id": 2,
+            "nombre": "Cesta de Productos de Coco Gourmet",
+            "bodega_inventario_id": 2,
+            "grupo_inventario_id": null,
+            "cantidad": 30,
+            "unidad_medida_cantidad_id": "UND",
+            "peso": 4000,
+            "unidad_medida_peso_id": "GR",
+            "volumen": 5000,
+            "unidad_medida_volumen_id": "CM3",
+            "estado_elemento_id": 1,
+            "created_at": "2025-07-20T14:36:00",
+            "usuario_id": 2
+        },
+        {
+            "id": 3,
+            "nombre": "Empaque de Coco para Regalo",
+            "bodega_inventario_id": 1,
+            "grupo_inventario_id": null,
+            "cantidad": 100,
+            "unidad_medida_cantidad_id": "UND",
+            "peso": 500,
+            "unidad_medida_peso_id": "GR",
+            "volumen": 1000,
+            "unidad_medida_volumen_id": "CM3",
+            "estado_elemento_id": 1,
+            "created_at": "2025-07-20T14:37:00",
+            "usuario_id": 3
+        },
+        {
+            "id": 4,
+            "nombre": "Set de Utensilios de Coco",
+            "bodega_inventario_id": 3,
+            "grupo_inventario_id": null,
+            "cantidad": 20,
+            "unidad_medida_cantidad_id": "UND",
+            "peso": 1000,
+            "unidad_medida_peso_id": "GR",
+            "volumen": 1500,
+            "unidad_medida_volumen_id": "CM3",
+            "estado_elemento_id": 1,
+            "created_at": "2025-07-20T14:38:00",
+            "usuario_id": 1
+        },
+        {
+            "id": 5,
+            "nombre": "Combo Saludable de Coco",
+            "bodega_inventario_id": 2,
+            "grupo_inventario_id": null,
+            "cantidad": 40,
+            "unidad_medida_cantidad_id": "UND",
+            "peso": 2500,
+            "unidad_medida_peso_id": "GR",
+            "volumen": 3500,
+            "unidad_medida_volumen_id": "CM3",
+            "estado_elemento_id": 1,
+            "created_at": "2025-07-20T14:39:00",
+            "usuario_id": 2
+        }
+    ],
+    "precios_elementos_inventario": [
+        {
+            "id": 1,
+            "elemento_inventario_id": 1,
+            "precio": 2.50,
+            "tipo_precio_id": 1,
+            "fini": "2025-07-01T00:00:00",
+            "ffin": null
+        },
+        {
+            "id": 2,
+            "elemento_inventario_id": 2,
+            "precio": 1.80,
+            "tipo_precio_id": 1,
+            "fini": "2025-07-01T00:00:00",
+            "ffin": null
+        },
+        {
+            "id": 3,
+            "elemento_inventario_id": 3,
+            "precio": 8.00,
+            "tipo_precio_id": 2,
+            "fini": "2025-07-01T00:00:00",
+            "ffin": null
+        },
+        {
+            "id": 4,
+            "elemento_inventario_id": 4,
+            "precio": 15.00,
+            "tipo_precio_id": 1,
+            "fini": "2025-07-01T00:00:00",
+            "ffin": null
+        },
+        {
+            "id": 5,
+            "elemento_inventario_id": 5,
+            "precio": 10.00,
+            "tipo_precio_id": 2,
+            "fini": "2025-07-01T00:00:00",
+            "ffin": null
+        }
+    ],
+    "movimientos_inventario": [
+        {
+            "id": 1,
+            "nombre": "Entrada de Coco Fresco",
+            "cantidad": 100,
+            "elemento_inventario_id": 1,
+            "elemento_compuesto_inventario_id": null,
+            "tipo_movimiento_id": 1,
+            "created_at": "2025-07-20T14:40:00",
+            "usuario_id": 1
+        },
+        {
+            "id": 2,
+            "nombre": "Salida de Agua de Coco",
+            "cantidad": 50,
+            "elemento_inventario_id": 2,
+            "elemento_compuesto_inventario_id": null,
+            "tipo_movimiento_id": 2,
+            "created_at": "2025-07-20T14:41:00",
+            "usuario_id": 2
+        },
+        {
+            "id": 3,
+            "nombre": "Ajuste de Pulpa Congelada",
+            "cantidad": -10,
+            "elemento_inventario_id": 3,
+            "elemento_compuesto_inventario_id": null,
+            "tipo_movimiento_id": 3,
+            "created_at": "2025-07-20T14:42:00",
+            "usuario_id": 3
+        },
+        {
+            "id": 4,
+            "nombre": "Entrada Kit Coctelería",
+            "cantidad": 20,
+            "elemento_inventario_id": null,
+            "elemento_compuesto_inventario_id": 1,
+            "tipo_movimiento_id": 1,
+            "created_at": "2025-07-20T14:43:00",
+            "usuario_id": 1
+        },
+        {
+            "id": 5,
+            "nombre": "Salida Cesta Gourmet",
+            "cantidad": 5,
+            "elemento_inventario_id": null,
+            "elemento_compuesto_inventario_id": 2,
+            "tipo_movimiento_id": 2,
+            "created_at": "2025-07-20T14:44:00",
+            "usuario_id": 2
+        }
+    ]
 }

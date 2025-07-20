@@ -5,8 +5,11 @@ from fastapi import APIRouter, HTTPException, status
 # Modelos
 from app.models.database import AsyncSessionDep
 from app.models.inventario import (
+    BodegaInventario,
+    GrupoInventario,
     ElementoInventario,
     ElementoCompuestoInventario,
+    ElementosPorElementoCompuestoInventario,
     PrecioElementoInventario,
     TipoPrecioElementoInventario,
     MovimientoInventario,
@@ -16,8 +19,11 @@ from app.models.inventario import (
 
 # Base de datos (Repositorio)
 from app.internal.query.inventario import (
+    BodegaInventarioQuery,
+    GrupoInventarioQuery,
     ElementoInventarioQuery,
     ElementoCompuestoInventarioQuery,
+    ElementosPorElementoCompuestoInventarioQuery,
     PrecioElementoInventarioQuery,
     TipoPrecioElementoInventarioQuery,
     MovimientoInventarioQuery,
@@ -42,6 +48,215 @@ router.post(
 )
 
 
+# region bodega_inventario
+@router.post(
+    "/bodega_inventario",
+    response_model=BodegaInventario,
+    status_code=status.HTTP_201_CREATED,
+    response_model_exclude_unset=True,
+    response_model_exclude_none=True,
+    summary="Crear una nueva bodega de inventario",
+    description="Crea una nueva bodega de inventario con los datos proporcionados.",
+)
+async def crear_bodega_inventario(
+    bodega: BodegaInventario,
+    session: AsyncSessionDep,
+):
+    """Crea una nueva bodega de inventario."""
+    query = BodegaInventarioQuery()
+    await query.create(session, bodega)
+    return bodega
+
+
+@router.get(
+    "/bodegas_inventario",
+    response_model=list[BodegaInventario],
+    response_model_exclude_none=True,
+    summary="Obtener lista de bodegas de inventario",
+    description="Obtiene una lista paginada de bodegas de inventario.",
+)
+async def get_bodegas_inventario(
+    session: AsyncSessionDep,
+    skip: int = 0,
+    limit: int = 100,
+):
+    """Obtiene una lista de bodegas de inventario."""
+    query = BodegaInventarioQuery()
+    bodegas = await query.get_list(session=session, skip=skip, limit=limit)
+    return bodegas
+
+
+@router.get(
+    "/bodega_inventario/{bodega_id}",
+    response_model=BodegaInventario,
+    summary="Obtener una bodega de inventario por ID",
+    description="Obtiene los detalles de una bodega de inventario específica mediante su ID.",
+    response_model_exclude_none=True,
+)
+async def get_bodega_inventario(
+    session: AsyncSessionDep,
+    bodega_id: int,
+):
+    """Obtiene una bodega de inventario por ID."""
+    query = BodegaInventarioQuery()
+    db_bodega = await query.get(session, bodega_id)
+    if db_bodega is None:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail=f"BodegaInventario con ID {bodega_id} no encontrado",
+        )
+    return db_bodega
+
+
+@router.put(
+    "/bodega_inventario/{bodega_id}",
+    response_model=BodegaInventario,
+    summary="Actualizar una bodega de inventario",
+)
+async def actualizar_bodega_inventario(
+    session: AsyncSessionDep,
+    bodega_id: int,
+    bodega: BodegaInventario,
+):
+    """Actualiza una bodega de inventario."""
+    query = BodegaInventarioQuery()
+    bodega_actualizada = await query.update(session, bodega_id, bodega)
+    if bodega_actualizada is None:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="BodegaInventario no encontrado",
+        )
+    return bodega_actualizada
+
+
+@router.delete(
+    "/bodega_inventario/{bodega_id}",
+    response_model=BodegaInventario,
+    summary="Eliminar una bodega de inventario",
+)
+async def eliminar_bodega_inventario(
+    session: AsyncSessionDep,
+    bodega_id: int,
+):
+    """Elimina una bodega de inventario."""
+    query = BodegaInventarioQuery()
+    bodega_eliminada = await query.delete(session, bodega_id)
+    if bodega_eliminada is None:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="BodegaInventario no encontrado",
+        )
+    return bodega_eliminada
+
+
+# endregion bodega_inventario
+
+
+# region grupo_inventario
+@router.post(
+    "/grupo_inventario",
+    response_model=GrupoInventario,
+    status_code=status.HTTP_201_CREATED,
+    response_model_exclude_unset=True,
+    response_model_exclude_none=True,
+    summary="Crear un nuevo grupo de inventario",
+    description="Crea un nuevo grupo de inventario con los datos proporcionados.",
+)
+async def crear_grupo_inventario(
+    grupo: GrupoInventario,
+    session: AsyncSessionDep,
+):
+    """Crea un nuevo grupo de inventario."""
+    query = GrupoInventarioQuery()
+    await query.create(session, grupo)
+    return grupo
+
+
+@router.get(
+    "/grupos_inventario",
+    response_model=list[GrupoInventario],
+    response_model_exclude_none=True,
+    summary="Obtener lista de grupos de inventario",
+    description="Obtiene una lista paginada de grupos de inventario.",
+)
+async def get_grupos_inventario(
+    session: AsyncSessionDep,
+    skip: int = 0,
+    limit: int = 100,
+):
+    """Obtiene una lista de grupos de inventario."""
+    query = GrupoInventarioQuery()
+    grupos = await query.get_list(session=session, skip=skip, limit=limit)
+    return grupos
+
+
+@router.get(
+    "/grupo_inventario/{grupo_id}",
+    response_model=GrupoInventario,
+    summary="Obtener un grupo de inventario por ID",
+    description="Obtiene los detalles de un grupo de inventario específico mediante su ID.",
+    response_model_exclude_none=True,
+)
+async def get_grupo_inventario(
+    session: AsyncSessionDep,
+    grupo_id: int,
+):
+    """Obtiene un grupo de inventario por ID."""
+    query = GrupoInventarioQuery()
+    db_grupo = await query.get(session, grupo_id)
+    if db_grupo is None:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail=f"GrupoInventario con ID {grupo_id} no encontrado",
+        )
+    return db_grupo
+
+
+@router.put(
+    "/grupo_inventario/{grupo_id}",
+    response_model=GrupoInventario,
+    summary="Actualizar un grupo de inventario",
+)
+async def actualizar_grupo_inventario(
+    session: AsyncSessionDep,
+    grupo_id: int,
+    grupo: GrupoInventario,
+):
+    """Actualiza un grupo de inventario."""
+    query = GrupoInventarioQuery()
+    grupo_actualizado = await query.update(session, grupo_id, grupo)
+    if grupo_actualizado is None:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="GrupoInventario no encontrado",
+        )
+    return grupo_actualizado
+
+
+@router.delete(
+    "/grupo_inventario/{grupo_id}",
+    response_model=GrupoInventario,
+    summary="Eliminar un grupo de inventario",
+)
+async def eliminar_grupo_inventario(
+    session: AsyncSessionDep,
+    grupo_id: int,
+):
+    """Elimina un grupo de inventario."""
+    query = GrupoInventarioQuery()
+    grupo_eliminado = await query.delete(session, grupo_id)
+    if grupo_eliminado is None:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="GrupoInventario no encontrado",
+        )
+    return grupo_eliminado
+
+
+# endregion grupo_inventario
+
+
+# region elemento_inventario
 async def crear_elemento_inventario(
     elemento: ElementoInventario,
     session: AsyncSessionDep,
@@ -133,6 +348,10 @@ async def eliminar_elemento_inventario(
     return elemento_eliminado
 
 
+# endregion elemento_inventario
+
+
+# region elemento_compuesto_inventario
 @router.post(
     "/elemento_compuesto_inventario",
     response_model=ElementoCompuestoInventario,
@@ -235,6 +454,10 @@ async def eliminar_elemento_compuesto_inventario(
     return elemento_compuesto_eliminado
 
 
+# endregion elemento_compuesto_inventario
+
+
+# region precio_elemento_inventario
 @router.post(
     "/precio_elemento_inventario",
     response_model=PrecioElementoInventario,
@@ -337,6 +560,10 @@ async def eliminar_precio_elemento_inventario(
     return precio_elemento_eliminado
 
 
+# endregion precio_elemento_inventario
+
+
+# region tipo_precio_elemento_inventario
 @router.post(
     "/tipo_precio_elemento_inventario",
     response_model=TipoPrecioElementoInventario,
@@ -443,6 +670,10 @@ async def eliminar_tipo_precio_elemento_inventario(
     return tipo_precio_elemento_eliminado
 
 
+# endregion tipo_precio_elemento_inventario
+
+
+# region movimiento_inventario
 @router.post(
     "/movimiento_inventario",
     response_model=MovimientoInventario,
@@ -543,6 +774,10 @@ async def eliminar_movimiento_inventario(
     return movimiento_eliminado
 
 
+# endregion movimiento_inventario
+
+
+# region tipo_movimiento_inventario
 @router.post(
     "/tipo_movimiento_inventario",
     response_model=TipoMovimientoInventario,
@@ -645,6 +880,10 @@ async def eliminar_tipo_movimiento_inventario(
     return tipo_movimiento_eliminado
 
 
+# endregion tipo_movimiento_inventario
+
+
+# region estado_elemento_inventario
 @router.post(
     "/estado_elemento_inventario",
     response_model=EstadoElementoInventario,
@@ -745,3 +984,6 @@ async def eliminar_estado_elemento_inventario(
             detail="EstadoElementoInventario no encontrado",
         )
     return estado_elemento_eliminado
+
+
+# endregion estado_elemento_inventario

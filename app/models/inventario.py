@@ -1,6 +1,6 @@
 # app/models/inventario.py
 from datetime import datetime
-from sqlmodel import Field, Relationship, SQLModel, SMALLINT, DATE
+from sqlmodel import Field, Relationship, SQLModel, SMALLINT, DATE, TEXT
 
 
 class BodegaInventario(SQLModel, table=True):
@@ -117,7 +117,7 @@ class ElementoInventario(SQLModel, table=True):
     unidad_medida_volumen_id: int | None = Field(
         foreign_key="unidades_medida.id", default=None
     )
-    # Corregido tipo a int y añadida clave foránea
+    descripcion: str | None = Field(sa_type=TEXT, max_length=250, default=None)
     estado_elemento_id: int = Field(foreign_key="estados_elemento_inventario.id")
     created_at: datetime = Field(default=datetime.now)
     # Añadida clave foránea
@@ -176,17 +176,18 @@ class ElementoCompuestoInventario(SQLModel, table=True):
         foreign_key="grupos_inventario.id", default=None
     )
     cantidad: int | None = None
-    unidad_medida_cantidad_id: str | None = Field(
-        max_length=3, foreign_key="unidades_medida.id", default=None
+    unidad_medida_cantidad_id: int | None = Field(
+        foreign_key="unidades_medida.id", default=None
     )
     peso: int | None = None
-    unidad_medida_peso_id: str | None = Field(
-        max_length=3, foreign_key="unidades_medida.id", default=None
+    unidad_medida_peso_id: int | None = Field(
+        foreign_key="unidades_medida.id", default=None
     )
     volumen: int | None = None
-    unidad_medida_volumen_id: str | None = Field(
-        max_length=3, foreign_key="unidades_medida.id", default=None
+    unidad_medida_volumen_id: int | None = Field(
+        foreign_key="unidades_medida.id", default=None
     )
+    descripcion: str | None = Field(sa_type=TEXT, max_length=250, default=None)
     # Corregido tipo a int y añadida clave foránea
     estado_elemento_id: int = Field(foreign_key="estados_elemento_inventario.id")
     created_at: datetime = Field(default=datetime.now)

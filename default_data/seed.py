@@ -110,12 +110,27 @@ async def seed_data():
         for item_data in data_to_seed.get("tipos_movimientos_inventario", []):
             await post_data(client, "/inventario/tipo_movimiento_inventario", item_data)
 
+        # Sembrar grupos de inventario
+        print("\n--- Sembrando Grupos de Inventario ---")
+        for item_data in data_to_seed.get("grupos_inventario", []):
+            await post_data(client, "/inventario/grupo_inventario", item_data)
+
         # 3. Sembrar Tipos de Precios de Elementos de Inventario
         print("\n--- Sembrando Tipos de Precios de Elementos de Inventario ---")
         for item_data in data_to_seed.get("tipos_precios_elementos_inventario", []):
             await post_data(
                 client, "/inventario/tipo_precio_elemento_inventario", item_data
             )
+
+        # Sembrar unidades medida
+        print("\n--- Sembrando Unidades de Medida ---")
+        for item_data in data_to_seed.get("unidades_medida", []):
+            await post_data(client, "/inventario/unidad_medida", item_data)
+
+        # Sembrar bodegas inventario
+        print("\n--- Sembrando Bodegas de Inventario ---")
+        for item_data in data_to_seed.get("bodegas_inventario", []):
+            await post_data(client, "/inventario/bodega_inventario", item_data)
 
         # 4. Sembrar Usuarios
         print("\n--- Sembrando Usuarios ---")

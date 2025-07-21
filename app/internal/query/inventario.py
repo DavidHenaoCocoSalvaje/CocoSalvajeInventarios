@@ -5,6 +5,7 @@ from app.models.inventario import (
     ElementosPorElementoCompuestoInventario,
     BodegaInventario,
     GrupoInventario,
+    UnidadMedida,
     PrecioElementoInventario,
     TipoPrecioElementoInventario,
     MovimientoInventario,
@@ -51,6 +52,13 @@ class GrupoInventarioQuery(BaseQuery[GrupoInventario]):
         super().__init__(GrupoInventario)
 
 
+class UnidadMedidaQuery(BaseQuery[UnidadMedida]):
+    """Clase de consulta para la entidad UnidadMedida."""
+
+    def __init__(self):
+        super().__init__(UnidadMedida)
+
+
 class PrecioElementoInventarioQuery(BaseQuery[PrecioElementoInventario]):
     """Clase de consulta para la entidad PrecioElementoInventario."""
 
@@ -90,6 +98,7 @@ class EstadoElementoInventarioQuery(BaseQuery[EstadoElementoInventario]):
 # siguiendo el patrón de usuario_query en app/internal/query/usuario.py
 grupo_inventario_query = GrupoInventarioQuery()
 bodega_inventario_query = BodegaInventarioQuery()
+unidad_medida_query = UnidadMedidaQuery()
 tipo_movimiento_inventario_query = TipoMovimientoInventarioQuery()
 estado_elemento_inventario_query = EstadoElementoInventarioQuery()
 elemento_inventario_query = ElementoInventarioQuery()

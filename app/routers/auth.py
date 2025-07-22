@@ -98,8 +98,6 @@ async def login(
             detail="Usuario o contraseña incorrectos",
             headers={"WWW-Authenticate": "Bearer"},
         )
-    data = {
-        "sub": usuario.id,
-    }
+    data = {"sub": usuario.id, "name": usuario.username}
     token = crear_access_token(data)
     return Token(access_token=token, token_type="bearer")

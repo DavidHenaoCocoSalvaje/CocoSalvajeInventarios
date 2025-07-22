@@ -1,5 +1,6 @@
 # main.py
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 from contextlib import asynccontextmanager
 
 from app.routers import usuario as usuario_router
@@ -25,6 +26,14 @@ app = FastAPI(
     description="API para gestionar el inventario de Coco Salvaje.",
     version="1.0.0",
     lifespan=lifespan,  # Usa el contexto de vida para crear tablas
+)
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
 )
 
 # Incluye el router de usuarios en la aplicación principal

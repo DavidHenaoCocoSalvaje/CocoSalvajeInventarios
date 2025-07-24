@@ -1,6 +1,6 @@
 # app/routers/inventario.py
 from typing import TypeVar
-from fastapi import APIRouter, HTTPException, status
+from fastapi import APIRouter, Depends, HTTPException, status
 from sqlmodel import SQLModel
 
 # Modelos
@@ -36,11 +36,13 @@ from app.internal.query.inventario import (
     TipoMovimientoInventarioQuery,
     EstadoElementoInventarioQuery,
 )
+from .auth import validar_access_token
 
 router = APIRouter(
     prefix="/inventario",
     tags=["Inventario"],
     responses={404: {"description": "No encontrado"}},
+    dependencies=[Depends(validar_access_token)],
 )
 
 # Define un TypeVar para los modelos de SQLModel

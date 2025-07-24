@@ -38,7 +38,7 @@ class TokenData(BaseModel):
 
 
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
-oauth2_scheme = OAuth2PasswordBearer(tokenUrl="login")
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl="auth/login")
 
 
 def verificar_password(plain_password, hashed_password):
@@ -65,7 +65,7 @@ def crear_access_token(data: dict, expires_delta: timedelta | None = None):
     return encoded_jwt
 
 
-async def get_usuario_actual(
+async def validar_access_token(
     token: Annotated[str, Depends(oauth2_scheme)], session: AsyncSessionDep
 ):
     """Se obtiene el usuario actual a partir del token JWT."""

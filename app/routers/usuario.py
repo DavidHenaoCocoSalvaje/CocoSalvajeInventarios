@@ -11,7 +11,7 @@ from app.models.usuario import UsuarioBase, UsuarioCreate
 from app.internal.query.usuario import usuario_query
 
 # Seguridad
-from app.routers.auth import pwd_context
+from app.routers.auth import pwd_context, validar_access_token
 
 router = APIRouter(
     prefix="/usuarios",
@@ -68,7 +68,7 @@ def verificar_complejidad_password(usuario: UsuarioCreate):
     description="Crea un nuevo usuario en la base de datos.",
 )
 async def crear_usuario(
-    usuario: Annotated[UsuarioCreate, Depends(verificar_complejidad_password)],
+    usuario: UsuarioCreate,
     session: AsyncSessionDep,
 ):
     # hash password
@@ -80,14 +80,14 @@ async def crear_usuario(
 
 @router.get(
     "/",
-    response_model=list[UsuarioBase],
+    response_model=UsuarioBase,
     response_model_exclude_none=True,
     summary="Obtener lista de usuarios",
     description="Obtiene una lista paginada de usuarios registrados.",
 )
 async def get_usuarios(
     session: AsyncSessionDep,
-    skip: int = 0,
+    skip: Annotated[int, Depends(validar_access_token)] = 0,
     limit: int = 100,
 ):
     usuarios = await usuario_query.get_list(session=session, skip=skip, limit=limit)
@@ -101,8 +101,7 @@ async def get_usuarios(
     description="Obtiene los detalles de un usuario específico mediante su ID.",
 )
 async def get(
-    session: AsyncSessionDep,
-    usuario_id: int,
+    session: AsyncSessionDep, usuario_id: Annotated[int, Depends(validar_access_token)]
 ):
     db_usuario = await usuario_query.get(session, usuario_id)
     if db_usuario is None:
@@ -120,7 +119,7 @@ async def get(
 )
 async def actualizar(
     session: AsyncSessionDep,
-    usuario_id: int,
+    usuario_id: Annotated[int, Depends(validar_access_token)],
     usuario: UsuarioBase,
 ):
     usuario_actualizado = await usuario_query.update(session, usuario_id, usuario)
@@ -139,7 +138,7 @@ async def actualizar(
 )
 async def eliminar(
     session: AsyncSessionDep,
-    usuario_id: int,
+    usuario_id: Annotated[int, Depends(validar_access_token)],
 ):
     usuario_eliminado = await usuario_query.delete(session, usuario_id)
     if usuario_eliminado is None:
